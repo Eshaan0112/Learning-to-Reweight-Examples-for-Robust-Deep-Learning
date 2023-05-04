@@ -179,44 +179,44 @@ class MetaBatchNorm2d(MetaModule):
     def named_leaves(self):
         return [('weight', self.weight), ('bias', self.bias)]
 
-class Swish(torch.nn.Module):
-    def __init__(self):
-        super(Swish, self).__init__()
+# class Swish(torch.nn.Module):
+#     def __init__(self):
+#         super(Swish, self).__init__()
 
-    def forward(self, x):
-        return x * torch.sigmoid(x)
+#     def forward(self, x):
+#         return x * torch.sigmoid(x)
 
-class LeNet(MetaModule):
-    def __init__(self, n_out):
-        super(LeNet, self).__init__()
+# class LeNet(MetaModule):
+#     def __init__(self, n_out):
+#         super(LeNet, self).__init__()
     
-        layers = []
-        layers.append(MetaConv2d(1, 6, kernel_size=5))
-        layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
+#         layers = []
+#         layers.append(MetaConv2d(1, 6, kernel_size=5))
+#         layers.append(nn.ReLU(inplace=True))
+#         layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
 
-        layers.append(MetaConv2d(6, 16, kernel_size=5))
-        layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
+#         layers.append(MetaConv2d(6, 16, kernel_size=5))
+#         layers.append(nn.ReLU(inplace=True))
+#         layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
         
-        layers.append(MetaConv2d(16, 120, kernel_size=5))
-        layers.append(nn.ReLU(inplace=True))
+#         layers.append(MetaConv2d(16, 120, kernel_size=5))
+#         layers.append(nn.ReLU(inplace=True))
         
-        self.main = nn.Sequential(*layers)
+#         self.main = nn.Sequential(*layers)
         
-        layers = []
-        layers.append(MetaLinear(120, 84))
-        layers.append(nn.ReLU(inplace=True))
-        layers.append(MetaLinear(84, n_out))
+#         layers = []
+#         layers.append(MetaLinear(120, 84))
+#         layers.append(nn.ReLU(inplace=True))
+#         layers.append(MetaLinear(84, n_out))
         
-        self.fc_layers = nn.Sequential(*layers)
+#         self.fc_layers = nn.Sequential(*layers)
         
-    def forward(self, x):
-        # print(x.shape)
-        x = self.main(x)
-        x = x.view(-1, 120)
-        # print(x.shape)
-        return self.fc_layers(x).squeeze()
+#     def forward(self, x):
+#         # print(x.shape)
+#         x = self.main(x)
+#         x = x.view(-1, 120)
+#         # print(x.shape)
+#         return self.fc_layers(x).squeeze()
 
 # class LeNet(MetaModule):
 #     def __init__(self, n_out):
