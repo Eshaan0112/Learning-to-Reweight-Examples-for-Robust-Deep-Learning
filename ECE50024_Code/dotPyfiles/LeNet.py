@@ -192,33 +192,65 @@ class LeNet(MetaModule):
     
         layers = []
         layers.append(MetaConv2d(1, 6, kernel_size=5))
-        # layers.append(nn.ReLU(inplace=True))
-        layers.append(Swish())
+        layers.append(nn.ReLU(inplace=True))
         layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
 
         layers.append(MetaConv2d(6, 16, kernel_size=5))
-        # layers.append(nn.ReLU(inplace=True))
-        layers.append(Swish())
+        layers.append(nn.ReLU(inplace=True))
         layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
         
         layers.append(MetaConv2d(16, 120, kernel_size=5))
-        # layers.append(nn.ReLU(inplace=True))
-        layers.append(Swish())
+        layers.append(nn.ReLU(inplace=True))
         
         self.main = nn.Sequential(*layers)
         
         layers = []
         layers.append(MetaLinear(120, 84))
-        # layers.append(nn.ReLU(inplace=True))
-        layers.append(Swish())
+        layers.append(nn.ReLU(inplace=True))
         layers.append(MetaLinear(84, n_out))
         
         self.fc_layers = nn.Sequential(*layers)
         
     def forward(self, x):
+        # print(x.shape)
         x = self.main(x)
         x = x.view(-1, 120)
+        # print(x.shape)
         return self.fc_layers(x).squeeze()
+
+# class LeNet(MetaModule):
+#     def __init__(self, n_out):
+#         super(LeNet, self).__init__()
+    
+#         layers = []
+#         layers.append(MetaConv2d(1, 6, kernel_size=5))
+#         layers.append(nn.ReLU(inplace=True))
+#         # layers.append(Swish())
+#         layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
+
+#         layers.append(MetaConv2d(6, 16, kernel_size=5))
+#         layers.append(nn.ReLU(inplace=True))
+#         # layers.append(Swish())
+#         layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
+        
+#         layers.append(MetaConv2d(16, 120, kernel_size=5))
+#         layers.append(nn.ReLU(inplace=True))
+#         # layers.append(Swish())
+        
+#         self.main = nn.Sequential(*layers)
+        
+#         layers = []
+#         layers.append(MetaLinear(120, 84))
+#         layers.append(nn.ReLU(inplace=True))
+#         # layers.append(Swish())
+#         layers.append(MetaLinear(84, n_out))
+        
+#         self.fc_layers = nn.Sequential(*layers)
+        
+#     def forward(self, x):
+#         x = self.main(x)
+#         x = x.view(-1, 120)
+#         return self.fc_layers(x).squeeze()
 
 
 # class LeNet(MetaModule):
@@ -301,3 +333,13 @@ class VGGNet(MetaModule):
         x = torch.flatten(x, 1)
         x = self.classifier(x)
         return x
+
+# Define the logistic regression model
+# class LogisticRegression(nn.Module):
+#     def __init__(self, input_size, output_size):
+#         super(LogisticRegression, self).__init__()
+#         self.linear = nn.Linear(input_size, output_size)
+
+#     def forward(self, x):
+#         outputs = self.linear(x)
+#         return outputs
